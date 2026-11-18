@@ -299,7 +299,7 @@ body:not(.show-labels) .label { pointer-events: none; }
   50% { transform: rotateX(4deg) rotateY(16deg) translateY(-5px); }
 }
 .holo-media.float img { width: 480px; filter: brightness(1.05) drop-shadow(0 0 1px rgba(210, 245, 255, 0.7)) drop-shadow(0 0 7px rgba(110, 210, 255, 0.45)); }
-.holo-media.float.robot img { width: 230px; }
+.holo-media.float.robot img { width: 160px; }
 .hm-scan {
   position: absolute;
   inset: 0;
