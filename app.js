@@ -16,6 +16,12 @@
   'use strict';
 
   const DATA = window.PORTFOLIO;
+  // the planets' content as plain HTML for search engines and screen readers
+  (() => {
+    const main = document.getElementById('site-content');
+    if (!main || !DATA) return;
+    main.insertAdjacentHTML('beforeend', DATA.planets.map((p) => `<section><h2>${p.label}</h2>${p.html}</section>`).join(''));
+  })();
   const params = new URLSearchParams(location.search);
   const SIM = params.has('sim');
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1814,7 +1820,7 @@ void main(){
   const caption = (() => {
     const el = $('#caption'), pre = $('#cap-pre'), face = $('#cap-face');
     const PFONT = (SIM && params.has('p_font')) ? parseFloat(params.get('p_font')) : 4.6;   // portrait character size (px)
-    $('#cap-sr').innerHTML = `<h1>${escHTML(INTRO.title)}</h1><p>${escHTML(INTRO.subtitle)}</p><p>${escHTML(INTRO.text)}</p>`;
+    $('#cap-sr').innerHTML = `<p>${escHTML(INTRO.title)}</p><p>${escHTML(INTRO.subtitle)}</p>`;
     let portrait = null, shown = false;
     const mix = (a, b, t) => '#' + [0, 1, 2].map((k) => Math.round(parseInt(a.slice(1 + 2 * k, 3 + 2 * k), 16) * (1 - t) + parseInt(b.slice(1 + 2 * k, 3 + 2 * k), 16) * t).toString(16).padStart(2, '0')).join('');
     function render() {
@@ -2135,7 +2141,8 @@ void main(){
       updateLabels();
       updateHud();
       window.__ready = true;
-      debugEl.hidden = false; debugEl.textContent = `${window.__minClear || ''} vw ${innerWidth}x${innerHeight} canvas ${canvas.width}x${canvas.height} dpr ${G.dpr} grid ${G.cols}x${G.rows}`;
+      if (params.has('debug')) debugEl.hidden = false;
+      debugEl.textContent = `${window.__minClear || ''} vw ${innerWidth}x${innerHeight} canvas ${canvas.width}x${canvas.height} dpr ${G.dpr} grid ${G.cols}x${G.rows}`;
       window.addEventListener('resize', () => setTimeout(() => { render(); debugEl.textContent += ` | resized ${innerWidth}x${innerHeight}`; }, 200));
       return;
     }

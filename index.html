@@ -3,13 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Maarten Stork · Portfolio</title>
-  <meta name="description" content="Maarten Stork: PhD candidate in scientific machine learning at TU Delft. A portfolio rendered in real-time ASCII.">
+  <title>Maarten Stork · PhD candidate in Scientific ML at TU Delft</title>
+  <meta name="description" content="Maarten Stork is a PhD candidate at TU Delft working on scientific machine learning and foundation models for PDEs. Research, publications, experience and contact.">
+  <meta name="author" content="Maarten Stork">
+  <link rel="canonical" href="https://maartenstork.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://maartenstork.com/">
+  <meta property="og:title" content="Maarten Stork">
+  <meta property="og:description" content="PhD candidate in scientific machine learning at TU Delft. A portfolio you fly through, rendered in real-time ASCII.">
+  <meta property="og:image" content="https://maartenstork.com/media/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Maarten Stork",
+  "url": "https://maartenstork.com/",
+  "jobTitle": "PhD Candidate in Scientific Machine Learning",
+  "affiliation": {
+    "@type": "CollegeOrUniversity",
+    "name": "Delft University of Technology",
+    "url": "https://www.tudelft.nl/"
+  },
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Amsterdam"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Vrije Universiteit Amsterdam"
+    }
+  ],
+  "knowsAbout": [
+    "Scientific machine learning",
+    "Physics-informed neural networks",
+    "Neural operators",
+    "Foundation models for PDEs",
+    "Evolutionary computation",
+    "Evolvable robotics"
+  ],
+  "email": "mailto:masstork@tudelft.nl",
+  "sameAs": [
+    "https://www.linkedin.com/in/maarten-stork-54597222a",
+    "https://github.com/MaartenStork"
+  ]
+}
+  </script>
   <meta name="theme-color" content="#05060c">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body class="booting">
   <canvas id="scene" aria-hidden="true"></canvas>
@@ -28,6 +76,11 @@
 --+</span><span class="readout" id="reticle-readout"></span></div>
 
   <nav id="labels" aria-label="Destinations"></nav>
+
+  <main id="site-content" class="sr-only">
+    <h1>Maarten Stork</h1>
+    <p>PhD candidate in scientific machine learning at TU Delft.</p>
+  </main>
 
 
   <nav id="dock-nav" aria-label="Planet navigation">
@@ -49,9 +102,9 @@
 
   <div id="debug" hidden></div>
 
-  <script src="content.js?v=10"></script>
-  <script src="portrait.js?v=10" onerror="this.remove()"></script>
-  <script src="logos.js?v=10" onerror="this.remove()"></script>
-  <script src="app.js?v=10"></script>
+  <script src="content.js?v=11"></script>
+  <script src="portrait.js?v=11" onerror="this.remove()"></script>
+  <script src="logos.js?v=11" onerror="this.remove()"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
