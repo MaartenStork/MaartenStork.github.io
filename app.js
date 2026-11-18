@@ -1000,10 +1000,10 @@ void main(){
     const tall = G.aspect < 0.95;
     const dirP = norm(p.pos);
     const [rP, uP] = basis(dirP);
-    const dist = tall ? Rr * 4.4 : Rr * 3.8;
+    const dist = tall ? Rr * 7.5 : Rr * 3.8;
     const pos = add(add(p.pos, mul(dirP, -dist)), tall ? mul(uP, -Rr * 0.6) : mul(rP, Rr * 0.8));
     const d = len(sub(p.pos, pos));
-    const look = tall ? add(p.pos, mul(uP, -d * 0.42 * TAN_H)) : add(p.pos, mul(rP, d * 0.45 * TAN_H * G.aspect));
+    const look = tall ? add(p.pos, mul(uP, -d * 0.66 * TAN_H)) : add(p.pos, mul(rP, d * 0.45 * TAN_H * G.aspect));
     return { pos, fwd: norm(sub(look, pos)) };
   }
 

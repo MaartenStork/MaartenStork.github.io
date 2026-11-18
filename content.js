@@ -138,7 +138,7 @@ window.PORTFOLIO = {
           </li>
           <li data-logo="vu">
             <div class="row"><span class="t">BSc Artificial Intelligence</span><span class="m">2020 &ndash; 2023</span></div>
-            <div class="sub">Vrije Universiteit Amsterdam</div>
+            <div class="sub">Vrije Universiteit Amsterdam / GPA 7.5</div>
             <p>Thesis on brain-computer interface datasets, with Dr. Michel Klein
             and Dr. Charlotte Gerritsen (8.5). Completed while competing on the
             Dutch national rowing team.</p>
