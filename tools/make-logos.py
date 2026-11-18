@@ -19,8 +19,9 @@ from collections import deque
 from PIL import Image, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MODES = {"uva": "tile", "vossius": "keep", "vu": "light", "zonnegilde": "light",
-         "tudelft": "light", "loyens": "light", "ebrain": "invert"}
+MODES = {"uva": "tile", "vu": "light", "zonnegilde": "keep",
+         "tudelft": "light", "loyens": "light", "ebrain": "keep"}
+NO_BG = {"zonnegilde"}      # already a complete square badge: keep its own background
 SIZE = 200
 
 def background_mask(im, tol=34):
@@ -53,7 +54,7 @@ for fn in sorted(os.listdir(os.path.join(HERE, "logos"))):
     name = fn[:-4]
     mode = MODES.get(name, "light")
     im = Image.open(os.path.join(HERE, "logos", fn)).convert("RGB")
-    bg = background_mask(im)
+    bg = background_mask(im) if name not in NO_BG else [[False] * im.width for _ in range(im.height)]
     w, h = im.size
     src = im.load()
     rgba = Image.new("RGBA", (w, h))

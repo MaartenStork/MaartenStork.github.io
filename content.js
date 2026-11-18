@@ -20,7 +20,7 @@ window.PORTFOLIO = {
   intro: {
     title: 'Maarten Stork',
     subtitle: 'PhD candidate / Scientific ML / TU Delft',
-    text: 'Physics-informed neural networks, neural operators & foundation models.',
+    text: '',
     hint: '> pick a planet to explore',
   },
 
@@ -56,39 +56,27 @@ window.PORTFOLIO = {
       type: 'gas',
       rings: true,
       html: `
-        <p class="kicker">Selected publications</p>
+        <p class="kicker">Publications</p>
         <ul class="list">
+          <li>
+            <div class="row"><span class="t">Designing Intelligent Nanoparticles: A Physics-Informed Evolutionary Framework for Controlled Cellular Uptake</span><span class="m">in prep.</span></div>
+            <p>Stork &amp; Ilie. Oral presentation at NWO Biophysics 2026.</p>
+            <figure class="holo-media float"><img src="media/nanoparticles.webp" alt="Evolved nanoparticle designs MP60, MP48, MPC52 and MPCUBE" loading="lazy"></figure>
+          </li>
           <li>
             <a href="https://doi.org/10.1145/3712255.3726713" target="_blank" rel="noopener"><span class="t">Size Matters; Variable-Length Bones in Evolvable Modular Robots</span><span class="m">GECCO '25</span></a>
             <p>Stork, de Regt, Nguyen &amp; Eiben. Genetic and Evolutionary
             Computation Conference Companion, M&aacute;laga. ACM.
             Presented in person.</p>
-          </li>
-          <li>
-            <div class="row"><span class="t">Designing Intelligent Nanoparticles: A Physics-Informed Evolutionary Framework for Controlled Cellular Uptake</span><span class="m">in prep.</span></div>
-            <p>Stork &amp; Ilie. Oral presentation at NWO Biophysics 2026.</p>
+            <figure class="holo-media float robot"><img src="media/gecco-robot.webp" alt="An evolved modular robot with variable-length bones" loading="lazy"></figure>
           </li>
         </ul>
-        <p class="kicker">Research threads</p>
+        <p class="kicker">Current research</p>
         <ul class="list">
           <li>
-            <div class="row"><span class="t">Scientific ML &amp; foundation models</span><span class="m">PhD / TU Delft</span></div>
-            <p>Physics-informed neural networks, neural operators,
-            transformer-based PDE models and hybrid physics-ML approaches.</p>
-          </li>
-          <li>
-            <div class="row"><span class="t">Nanoparticle design</span><span class="m">MSc thesis</span></div>
-            <p>Evolutionary, physics-informed algorithmic design of
-            nanoparticles for controlled cellular uptake.</p>
-          </li>
-          <li>
-            <div class="row"><span class="t">Evolvable modular robots</span><span class="m">UvA / VU</span></div>
-            <p>Genetic algorithms that evolve 3D-printable, adaptive robot
-            bodies, combining simulation with real-world testing.</p>
-          </li>
-          <li>
-            <div class="row"><span class="t">Brain-computer interface data</span><span class="m">BSc thesis</span></div>
-            <p>Analysis and handling of brain-computer interface datasets.</p>
+            <div class="row"><span class="t">Foundation models for PDEs</span><span class="m">PhD / TU Delft</span></div>
+            <p>Building on physics-informed neural networks, neural operators
+            and transformer-based PDE models.</p>
           </li>
         </ul>
       `,
@@ -134,7 +122,7 @@ window.PORTFOLIO = {
           <li data-logo="vu">
             <div class="row"><span class="t">Teaching Assistant &amp; Mentor</span><span class="m">2021 &ndash; 2023</span></div>
             <div class="sub">Vrije Universiteit Amsterdam</div>
-            <p>AI courses including Linear Algebra for AI, Socially Aware Computing and AI &amp; Law.
+            <p>AI courses including Socially Aware Computing and AI &amp; Law.
             Introduction mentor for new students.</p>
           </li>
         </ul>
@@ -160,10 +148,6 @@ window.PORTFOLIO = {
             <p>Thesis on brain-computer interface datasets, with Dr. Michel Klein
             and Dr. Charlotte Gerritsen (8.5). Completed while competing on the
             Dutch national rowing team.</p>
-          </li>
-          <li data-logo="">
-            <div class="row"><span class="t">Cambridge English C2 Proficiency</span><span class="m">2020</span></div>
-            <div class="sub">229 / 230</div>
           </li>
         </ul>
       `,

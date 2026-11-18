@@ -723,8 +723,10 @@ void main(){
   const debugEl = $('#debug');
   const panel = $('#panel');
   const panelBody = $('#panel-body');
-  const hudStatus = $('#hud-status');
-  const hudClock = $('#hud-clock');
+  const backBtn = $('#back-btn');
+  const dockNav = $('#dock-nav');
+  const navLeft = $('#nav-left');
+  const navRight = $('#nav-right');
   const labelsEl = $('#labels');
   const reticle = $('#reticle');
   const reticleReadout = $('#reticle-readout');
@@ -1227,6 +1229,35 @@ void main(){
     tweenCam(view.pos, REDUCED ? 1.4 : 2.4, T_IGN + T_FLY * 0.42, null, view.fwd);
   }
 
+  // sweep to the neighbouring planet (left/right): camera pulls back a little and swings
+  // over while the ship flies across. No warp.
+  const T_HOP = REDUCED ? 1.4 : 2.4;
+  const neighbour = (i, dir) => planets.findIndex((p) => p.num === planets[i].num + dir);
+  function hop(dir) {
+    if (S.mode !== 'docked') return;
+    const j = neighbour(S.target, dir);
+    if (j < 0) return;
+    closePanel();
+    const p = planets[j], sh = S.ship;
+    const view = viewFor(j);
+    const C = p.pos, Ro = p.r * 1.5;
+    const from = sh.pos.slice();
+    const a = norm(add(norm(sub(view.pos, C)), [-dir * 0.9, 0.25, 0]));     // arrive on the side facing the camera
+    const Q = add(C, mul(a, Ro));
+    let T = norm(cross([0, 1, 0], a));
+    if (dot(T, sub(Q, from)) < 0) T = mul(T, -1);
+    const D = len(sub(Q, from));
+    S.hop = {
+      j, P0: from, P1: add(from, mul(sh.fwd, D * 0.3)), P2: sub(Q, mul(T, D * 0.25)), P3: Q,
+      path: { C, a, T, Ro },
+      sideSign: Math.sign(dot(cross(T, mul(a, -1)), [0, 1, 0])) || 1,
+    };
+    // camera arcs back (toward the start) on the way, so it never skims another planet
+    const A = S.camBase.slice(), B = view.pos, d = len(sub(B, A));
+    tweenCam(B, T_HOP, 0, [add(A, mul(norm(mul(A, -1)), d * 0.35)), add(B, mul(norm(mul(B, -1)), d * 0.35))], view.fwd);
+    S.mode = 'hop'; S.mt = 0; S.emitAcc = 0;
+  }
+
   // return trip: fly back into frame -> charge (hover + vibrate) -> warp jump home
   const T_RFLY = REDUCED ? 1.4 : 2.6;     // fly straight back to the middle of the screen
   const T_CHARGE = REDUCED ? 0.6 : 1.6;   // hover, vibrate, spool up
@@ -1333,6 +1364,24 @@ void main(){
       sh.vel = [0, 0, 0];
       S.shake = 0;
       if (!S.panelOpen && t > 0.35) openPanel(S.target);
+    } else if (S.mode === 'hop') {
+      const hp = S.hop;
+      const s = easeInOut(clamp(t / T_HOP, 0, 1));
+      const raw = bez(hp.P0, hp.P1, hp.P2, hp.P3, s);
+      const p = avoidPlanets(raw, sh.scale);
+      let f = norm(bezD(hp.P0, hp.P1, hp.P2, hp.P3, Math.min(Math.max(s, 0.001), 0.999)));
+      if (len(sub(p, raw)) > 1e-3) f = headingFrom(sh.pos, p, f);
+      const turn = dot(cross(sh.fwd, f), [0, 1, 0]) / Math.max(dt, 1e-3);
+      sh.vel = mul(sub(p, sh.pos), 1 / Math.max(dt, 1e-3));
+      sh.pos = p;
+      orient(f, damp(sh.roll, clamp(-turn * 0.5, -0.8, 0.8), 4, dt));
+      sh.thrust = damp(sh.thrust, 0.85, 4, dt);
+      sh.hot = damp(sh.hot, 0.7, 3, dt);
+      emitExhaust(dt, 0.3);
+      if (t >= T_HOP && !S.camTw) {
+        S.mode = 'docked'; S.mt = 0; S.target = hp.j; S.orbit = 0;
+        S.path = hp.path; S.sideSign = hp.sideSign;
+      }
     } else if (S.mode === 'return') {
       const rt = S.ret;
       const t1 = T_RFLY, t3 = t1 + T_CHARGE, t4 = t3 + T_BLAST;
@@ -1589,7 +1638,6 @@ void main(){
     labelsEl.appendChild(b);
     p.el = b;
   });
-  $('#hud-count').textContent = planets.length;
 
   let reticleFor = -1;
   function updateLabels() {
@@ -1795,10 +1843,10 @@ void main(){
       });
       const text = (t, c) => ({ html: span(t, c), len: t.length });
       const artW = Math.max(...art.map((r) => r.length));
-      const RW = Math.max(artW, Math.min(maxRW, Math.max(INTRO.subtitle.length, INTRO.text.length, INTRO.hint.length + 1)));
+      const RW = Math.max(artW, Math.min(maxRW, Math.max(INTRO.subtitle.length, INTRO.text.length)));
+      right.push(text('', 'c-txt'));
       right.push(text(INTRO.subtitle.toUpperCase().slice(0, RW), 'c-sub'));
-      wrapText(INTRO.text, RW).forEach((l) => right.push(text(l, 'c-txt')));
-      right.push({ html: span(INTRO.hint, 'c-hint') + '<span class="cursor">_</span>', len: INTRO.hint.length + 1 });
+      if (INTRO.text) wrapText(INTRO.text, RW).forEach((l) => right.push(text(l, 'c-txt')));
       const F = (t) => `<span class="c-frame">${t}</span>`;
       const dash = (n) => '-'.repeat(n);
       const textBox = [F(`.${dash(RW + 2)}.`)];
@@ -1842,7 +1890,7 @@ void main(){
         if (SIM) ['gamma', 'dirExp', 'globExp', 'flat'].forEach((k) => { if (params.has('p_' + k)) opt[k] = parseFloat(params.get('p_' + k)); });
         portrait = photoAscii(x.getImageData(0, 0, c.width, c.height).data, cols, rows);
         render();
-        if (shown && !SIM) scramble(face, 600);
+
       };
       img.src = P.src;
     }
@@ -1850,36 +1898,14 @@ void main(){
       if (shown) return;
       shown = true;
       el.classList.add('on');
-      if (!SIM) { scramble(pre, 900); if (!face.hidden) scramble(face, 1100); }
+      if (!SIM) scramble(pre, 900);
     }
     function hide() { shown = false; el.classList.remove('on'); }
     return { render, show, hide, loadPortrait };
   })();
 
   let lastStatus = '', lastClock = '';
-  function updateHud() {
-    let s;
-    const tgt = planets[S.target];
-    if (S.reveal < 1) s = '> booting';
-    else if (S.mode === 'idle') s = '> select a destination';
-    else if (S.mode === 'launch') {
-      const k = clamp(S.mt / (T_IGN + T_FLY), 0, 1);
-      const n = Math.round(k * 12);
-      s = `> en route to ${tgt.label.toLowerCase()} [${'#'.repeat(n)}${'.'.repeat(12 - n)}]`;
-    } else if (S.mode === 'docked') s = `> in orbit: ${tgt.label.toLowerCase()}`;
-    else if (S.mt < T_RFLY) s = '> ship inbound';
-    else if (S.mt < T_RFLY + T_CHARGE) {
-      const n = Math.round(S.charge * 12);
-      s = `> charging warp drive [${'#'.repeat(n)}${'.'.repeat(12 - n)}]`;
-    } else s = '> warp';
-    if (s !== lastStatus) { hudStatus.textContent = s; lastStatus = s; }
-
-    const d = new Date();
-    const c = S.cam;
-    const f = (v) => (v < 0 ? '-' : '+') + String(Math.abs(Math.round(v))).padStart(4, '0');
-    const clock = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}\nx${f(c[0])} y${f(c[1])} z${f(c[2])}`;
-    if (clock !== lastClock) { hudClock.textContent = clock; lastClock = clock; }
-  }
+  function updateHud() { /* no on-screen HUD text */ }
 
   const SCRAMBLE = '!<>-_\\/[]{}=+*^?#%&@$';
   function scramble(root, total = 900) {
@@ -1934,10 +1960,9 @@ void main(){
     // sits right next to the docked planet (which fills the left ~45% of the screen)
     panel.style.left = narrow ? '' : Math.round(Math.min(window.innerWidth * 0.455, window.innerWidth - W * cw - 24)) + 'px';
     const label = p.label.toUpperCase();
-    const fill = Math.max(1, W - (5 + 2 + 3 + label.length + 2 + 7 + 3));
+    const fill = Math.max(1, W - (5 + 2 + 3 + label.length + 2 + 1));
     $('#panel-top').innerHTML = `<span aria-hidden="true">+--[ </span><span class="panel-idx">${pad2(p.num)}</span><span aria-hidden="true"> / </span>` +
-      `<h2 id="panel-title">${escHTML(label)}</h2><span aria-hidden="true"> ]${'-'.repeat(fill)}</span>` +
-      `<button type="button" id="panel-close" aria-label="Back to the ship">[ esc ]</button><span aria-hidden="true">--+</span>`;
+      `<h2 id="panel-title">${escHTML(label)}</h2><span aria-hidden="true"> ]${'-'.repeat(fill)}+</span>`;
     $('#panel-bot').textContent = '+' + '-'.repeat(W - 2) + '+';
     panel.querySelectorAll('.abox-side').forEach((e) => { e.textContent = '|'.repeat(400); });
   }
@@ -1969,6 +1994,16 @@ void main(){
     drawPanelFrame(i);
     panelBody.innerHTML = p.html;
     addLogos(panelBody);
+    // publication visuals: wrap so the image and its scanlines float together
+    panelBody.querySelectorAll('figure.holo-media').forEach((fig, k) => {
+      const img = fig.querySelector('img');
+      if (!img) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'hm';
+      wrap.style.animationDelay = (-2.3 * k) + 's';
+      img.replaceWith(wrap);
+      wrap.append(img, Object.assign(document.createElement('i'), { className: 'hm-scan' }));
+    });
     // dot leaders between a title and its meta:  Project .......... 2025
     panelBody.querySelectorAll('.list .row, .list a, .links li').forEach((r) => {
       const m = r.querySelector('.m');
@@ -1982,12 +2017,20 @@ void main(){
     panel.scrollTop = 0;
     requestAnimationFrame(() => panel.classList.add('open'));
     scramble(panel, 800);
-    setTimeout(() => { const b = $('#panel-close'); if (b) b.focus({ preventScroll: true }); }, 60);
+    const L = neighbour(i, -1), Rn = neighbour(i, 1);
+    navLeft.hidden = L < 0;
+    navRight.hidden = Rn < 0;
+    if (L >= 0) navLeft.textContent = `[ \u2190 ${pad2(planets[L].num)} ${planets[L].label} ]`;
+    if (Rn >= 0) navRight.textContent = `[ ${pad2(planets[Rn].num)} ${planets[Rn].label} \u2192 ]`;
+    dockNav.classList.add('on');
+    setTimeout(() => backBtn.focus({ preventScroll: true }), 60);
     try { history.replaceState(null, '', '#' + p.id); } catch (e) { /* file:// */ }
   }
   function closePanel() {
     S.panelOpen = false;
     panel.classList.remove('open');
+    dockNav.classList.remove('on');
+    if (dockNav.contains(document.activeElement)) document.activeElement.blur();
     setTimeout(() => { if (!S.panelOpen) panel.hidden = true; }, 450);
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* file:// */ }
   }
@@ -2008,11 +2051,15 @@ void main(){
     if (S.mode === 'idle') {
       const i = pick(e.clientX, e.clientY);
       if (i >= 0) launch(i);
-    } else if (S.mode === 'docked') goHome();
+    }
   });
-  panel.addEventListener('click', (e) => { if (e.target.closest('#panel-close')) goHome(); });
+  backBtn.addEventListener('click', goHome);
+  navLeft.addEventListener('click', () => hop(-1));
+  navRight.addEventListener('click', () => hop(1));
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { goHome(); return; }
+    if (e.key === 'Escape' || e.key === 'ArrowDown') { goHome(); return; }
+    if (e.key === 'ArrowLeft') { hop(-1); return; }
+    if (e.key === 'ArrowRight') { hop(1); return; }
     const n = parseInt(e.key, 10);
     const hit = planets.findIndex((p) => p.num === n);
     if (hit >= 0 && S.mode === 'idle' && S.reveal > 0.9) launch(hit);
@@ -2070,6 +2117,7 @@ void main(){
       let minClear = Infinity, minAt = '', camClear = Infinity, camAt = '';
       for (let tt = 0; tt < secs; tt += 1 / 60) {
         if (back >= 0 && tt >= back && S.mode === 'docked') goHome();
+        if (params.has('hop') && !S.__hopped && tt >= parseFloat(params.get('hop')) && S.mode === 'docked') { S.__hopped = true; hop(parseInt(params.get('dir') || '1', 10)); }
         update(1 / 60);
         planets.forEach((pl) => {
           const c = len(sub(S.cam, pl.pos)) - pl.r * (1 + 0.1 * pl.hover);
