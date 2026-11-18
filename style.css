@@ -338,10 +338,12 @@ body:not(.show-labels) .label { pointer-events: none; }
   .hud-bl { bottom: 16px; left: 16px; }
   .hud-br, .hud-tr { display: none; }
   #reticle .readout { display: none; }
-  #panel { left: 12px; right: auto; top: auto; bottom: 64px; transform: none; font-size: 12px; }
+  /* phone: the box takes ~70% of the screen, the planet sits in the top 30% */
+  #panel { left: 12px; right: auto; top: 30vh; bottom: 58px; transform: none; font-size: 12px; display: flex; flex-direction: column; }
+  .abox-mid { flex: 1; min-height: 0; }
   #dock-nav { bottom: 14px; gap: 1ch; }
   .nav-btn { font-size: 11px; padding: 6px 6px; }
-  .panel-body { max-height: 50vh; }
+  .panel-body { max-height: none; height: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
