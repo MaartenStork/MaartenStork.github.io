@@ -143,6 +143,36 @@ body:not(.show-labels) .label { pointer-events: none; }
 #reticle:not(.on) .br { transform: translate(10px, 10px); }
 #reticle .readout { position: absolute; left: calc(100% + 10px); top: 0; color: var(--dim); white-space: pre; }
 
+/* ---------- docked navigation: <- previous | v back | next -> ---------- */
+#dock-nav {
+  position: fixed;
+  z-index: 5;
+  left: 50%;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 3ch;
+  transform: translate(-50%, 8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#dock-nav.on { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.nav-btn {
+  padding: 6px 12px;
+  border: 0;
+  background: var(--fill);
+  color: var(--dim);
+  font: 700 13px/1.2 var(--font);
+  text-transform: uppercase;
+  white-space: pre;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.nav-btn[hidden] { display: block; visibility: hidden; }
+#back-btn { color: var(--fg); font-size: 14px; }
+.nav-btn:hover, .nav-btn:focus-visible { color: var(--accent); outline: none; }
+
 /* ---------- info panel: a box drawn with characters ---------- */
 #panel {
   position: fixed;
@@ -248,7 +278,43 @@ body:not(.show-labels) .label { pointer-events: none; }
   95% { opacity: 0.94; }
 }
 @keyframes holo-band { from { background-position: 0 0, 0 -80%; } to { background-position: 0 0, 0 280%; } }
-@media (prefers-reduced-motion: reduce) { .holo-img, .hs { animation: none; } }
+/* publication visuals: hologram screens */
+.holo-media { margin: 0.9em 0 0.3em 2ch; perspective: 700px; max-width: calc(100% - 2ch); }
+.holo-media .hm {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  transform-origin: 50% 100%;
+  animation: media-float 8s ease-in-out infinite, holo-flicker 7.3s steps(1) infinite;
+}
+.holo-media img { display: block; max-width: 100%; height: auto; }
+.holo-media.screen img {
+  width: 370px;
+  filter: brightness(0.8) contrast(1.08) saturate(1.1);
+  box-shadow: 0 0 0 1px rgba(140, 220, 255, 0.4), 0 0 22px rgba(110, 210, 255, 0.28);
+}
+.holo-media.robot .hm { animation: robot-turn 9s ease-in-out infinite, holo-flicker 7.3s steps(1) infinite; }
+@keyframes robot-turn {
+  0%, 100% { transform: rotateX(8deg) rotateY(-22deg) translateY(0); }
+  50% { transform: rotateX(4deg) rotateY(16deg) translateY(-5px); }
+}
+.holo-media.float img { width: 480px; filter: brightness(1.05) drop-shadow(0 0 1px rgba(210, 245, 255, 0.7)) drop-shadow(0 0 7px rgba(110, 210, 255, 0.45)); }
+.holo-media.float.robot img { width: 230px; }
+.hm-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(5, 6, 12, 0.32) 0 1px, transparent 1px 3px),
+    linear-gradient(to bottom, transparent, rgba(170, 235, 255, 0.12), transparent) 0 0 / 100% 30% no-repeat;
+  animation: holo-band 4.5s linear infinite;
+}
+.holo-media.screen .hm-scan { background-color: rgba(60, 150, 255, 0.07); }
+@keyframes media-float {
+  0%, 100% { transform: rotateX(6deg) rotateY(-9deg) translateY(0); }
+  50% { transform: rotateX(3deg) rotateY(-3deg) translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) { .holo-img, .hs, .holo-media .hm, .holo-media.robot .hm, .hm-scan { animation: none; } }
 .entry-body { min-width: 0; }
 .panel-body .links li { display: flex; }
 .panel-body .links .m { order: 0; }
@@ -272,7 +338,9 @@ body:not(.show-labels) .label { pointer-events: none; }
   .hud-bl { bottom: 16px; left: 16px; }
   .hud-br, .hud-tr { display: none; }
   #reticle .readout { display: none; }
-  #panel { left: 12px; right: auto; top: auto; bottom: 12px; transform: none; font-size: 12px; }
+  #panel { left: 12px; right: auto; top: auto; bottom: 64px; transform: none; font-size: 12px; }
+  #dock-nav { bottom: 14px; gap: 1ch; }
+  .nav-btn { font-size: 11px; padding: 6px 6px; }
   .panel-body { max-height: 50vh; }
 }
 

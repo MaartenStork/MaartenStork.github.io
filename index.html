@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body class="booting">
   <canvas id="scene" aria-hidden="true"></canvas>
@@ -20,7 +20,6 @@
     <div class="sr-only" id="cap-sr"></div>
   </header>
 
-  <div class="hud hud-tr" id="hud-clock" aria-hidden="true"></div>
 
   <div id="reticle" aria-hidden="true"><span class="c tl">+--
 |</span><span class="c tr">--+
@@ -30,8 +29,12 @@
 
   <nav id="labels" aria-label="Destinations"></nav>
 
-  <div class="hud hud-bl"><span id="hud-status">&gt; booting</span><span class="cursor">_</span></div>
-  <div class="hud hud-br" aria-hidden="true"><span class="key">1-<span id="hud-count">5</span></span> travel &nbsp; <span class="key">esc</span> return</div>
+
+  <nav id="dock-nav" aria-label="Planet navigation">
+    <button type="button" id="nav-left" class="nav-btn"></button>
+    <button type="button" id="back-btn" class="nav-btn" aria-label="Back to the ship">[ &#8595; BACK ]</button>
+    <button type="button" id="nav-right" class="nav-btn"></button>
+  </nav>
 
   <aside id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
     <div class="abox-top" id="panel-top"></div>
@@ -46,9 +49,9 @@
 
   <div id="debug" hidden></div>
 
-  <script src="content.js"></script>
-  <script src="portrait.js" onerror="this.remove()"></script>
-  <script src="logos.js" onerror="this.remove()"></script>
-  <script src="app.js"></script>
+  <script src="content.js?v=5"></script>
+  <script src="portrait.js?v=5" onerror="this.remove()"></script>
+  <script src="logos.js?v=5" onerror="this.remove()"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
