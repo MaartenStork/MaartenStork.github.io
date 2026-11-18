@@ -50,7 +50,7 @@ If the frame rate drops below about 30fps, the page automatically switches to bi
 
 ## Deploy
 
-Live at **https://maartenstork.github.io** (GitHub Pages, from the `main` branch).
+Live at **https://maartenstork.com** (GitHub Pages, from the `main` branch; DNS at Hostnet).
 To update the site, commit and push. GitHub rebuilds it in about a minute:
 
 ```sh
