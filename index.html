@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maarten Stork · Portfolio</title>
+  <meta name="description" content="Maarten Stork: PhD candidate in scientific machine learning at TU Delft. A portfolio rendered in real-time ASCII.">
+  <meta name="theme-color" content="#05060c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="booting">
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <header class="caption" id="caption">
+    <pre id="cap-pre" aria-hidden="true"></pre>
+    <pre id="cap-face" aria-hidden="true" hidden></pre>
+    <div class="sr-only" id="cap-sr"></div>
+  </header>
+
+  <div class="hud hud-tr" id="hud-clock" aria-hidden="true"></div>
+
+  <div id="reticle" aria-hidden="true"><span class="c tl">+--
+|</span><span class="c tr">--+
+  |</span><span class="c bl">|
++--</span><span class="c br">  |
+--+</span><span class="readout" id="reticle-readout"></span></div>
+
+  <nav id="labels" aria-label="Destinations"></nav>
+
+  <div class="hud hud-bl"><span id="hud-status">&gt; booting</span><span class="cursor">_</span></div>
+  <div class="hud hud-br" aria-hidden="true"><span class="key">1-<span id="hud-count">5</span></span> travel &nbsp; <span class="key">esc</span> return</div>
+
+  <aside id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+    <div class="abox-top" id="panel-top"></div>
+    <div class="abox-mid"><span class="abox-side l" aria-hidden="true"></span><div class="panel-body" id="panel-body"></div><span class="abox-side r" aria-hidden="true"></span></div>
+    <div class="abox-bot" id="panel-bot" aria-hidden="true"></div>
+  </aside>
+
+  <div id="fallback" hidden>
+    <p>This page needs WebGL2 to draw the scene. Here is the content without it:</p>
+    <div id="fallback-list"></div>
+  </div>
+
+  <div id="debug" hidden></div>
+
+  <script src="content.js"></script>
+  <script src="portrait.js" onerror="this.remove()"></script>
+  <script src="logos.js" onerror="this.remove()"></script>
+  <script src="app.js"></script>
+</body>
+</html>
