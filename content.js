@@ -154,7 +154,7 @@ window.PORTFOLIO = {
       html: `
         <p>Get in touch about research, collaborations or anything else.</p>
         <ul class="links">
-          <li><span class="m">mail</span><a href="mailto:maartenastork@gmail.com">maartenastork@gmail.com</a></li>
+          <li><span class="m">mail</span><a href="mailto:masstork@tudelft.nl">masstork@tudelft.nl</a></li>
           <li><span class="m">github</span><a href="https://github.com/MaartenStork" target="_blank" rel="noopener">github.com/MaartenStork</a></li>
           <li><span class="m">linkedin</span><a href="https://www.linkedin.com/in/maarten-stork-54597222a" target="_blank" rel="noopener">linkedin.com/in/maarten-stork</a></li>
           <li><span class="m">at</span><span>TU Delft, the Netherlands</span></li>
