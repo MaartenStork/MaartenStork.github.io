@@ -1941,7 +1941,7 @@ void main(){
     $('#panel-bot').textContent = '+' + '-'.repeat(W - 2) + '+';
     panel.querySelectorAll('.abox-side').forEach((e) => { e.textContent = '|'.repeat(400); });
   }
-  // logo holograms next to entries (<li data-logo="uva">): the real logo, projected
+  // logo holograms next to entries (<li data-logo="uva">): the real logo, floating
   function addLogos(root) {
     root.querySelectorAll('li[data-logo]').forEach((li, k) => {
       const name = li.getAttribute('data-logo');
@@ -1955,9 +1955,7 @@ void main(){
       if (src) {
         holo.style.setProperty('--img', `url("${src}")`);
         holo.style.setProperty('--d', (-1.7 * k).toFixed(2) + 's');      // out of sync with each other
-        holo.innerHTML = '<div class="holo-beam"></div>' +
-          '<div class="holo-img"><i class="hl"></i><i class="hl r"></i><i class="hl c"></i><i class="hs"></i></div>' +
-          '<span class="holo-base">\\_[______]_/</span>';
+        holo.innerHTML = '<div class="holo-img"><i class="hl"></i><i class="hl r"></i><i class="hl c"></i><i class="hs"></i></div>';
       }
       li.classList.add('has-logo');
       li.append(holo, body);
