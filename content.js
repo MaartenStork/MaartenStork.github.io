@@ -41,12 +41,6 @@ window.PORTFOLIO = {
         Along the way I evolved 3D-printable robots and co-founded an LLM startup.</p>
         <p>Former Dutch U19 national team rower. I grew up between the
         Netherlands and New Zealand.</p>
-        <ul class="links">
-          <li><span class="m">speaks</span><span>Dutch, English, German</span></li>
-          <li><span class="m">tools</span><span>Python, PyTorch, NumPy, SciPy, MuJoCo, ROS 2, C#, TypeScript, Docker</span></li>
-        </ul>
-        <p class="dim">This site is a real-time 3D scene, redrawn as text
-        characters about sixty times a second.</p>
       `,
     },
     {
