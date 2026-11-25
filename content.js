@@ -99,7 +99,7 @@ window.PORTFOLIO = {
             <div class="row"><span class="t">Data Scientist</span><span class="m">2024 &ndash; 2025</span></div>
             <div class="sub">Zonnegilde / Kampen</div>
             <p>Lead-generation models and energy-consumption forecasting,
-            deployed on real-world solar panel systems.</p>
+            deployed on real systems.</p>
           </li>
           <li data-logo="uva">
             <div class="row"><span class="t">Student Researcher, Evolvable Robotics</span><span class="m">2024 &ndash; 2025</span></div>
