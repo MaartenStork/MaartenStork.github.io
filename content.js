@@ -91,8 +91,8 @@ window.PORTFOLIO = {
           <li data-logo="ebrain">
             <div class="row"><span class="t">Co-Founder</span><span class="m">2025</span></div>
             <div class="sub">eBrain B.V. / Amsterdam &amp; Utrecht</div>
-            <p>Built a platform that lets small businesses use LLMs on their own
-            data, from prototype to production. Stepped back to pursue research
+            <p>Helped build a platform that lets small businesses use LLMs on their
+            own data. Stepped back to pursue research
             after a successful investment round.</p>
           </li>
           <li data-logo="zonnegilde">
