@@ -38,9 +38,9 @@ window.PORTFOLIO = {
         networks, neural operators and transformer-based PDE models.</p>
         <p>Before that I did an MSc in Computational Science at the University
         of Amsterdam (cum laude) and a BSc in Artificial Intelligence at the VU.
-        Along the way I evolved 3D-printable robots and co-founded an LLM startup.</p>
-        <p>Former Dutch U19 national team rower. I grew up between the
-        Netherlands and New Zealand.</p>
+        I picked up some industry experience while studying too (see the
+        Experience planet).</p>
+        <p>I'll post updates here on how my research is going!</p>
       `,
     },
     {
