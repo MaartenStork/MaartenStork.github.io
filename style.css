@@ -84,6 +84,10 @@ body.booting .hud { opacity: 0; }
 .c-sub { color: #ffd2b8; }
 .c-txt { color: #e6e1dc; }
 .c-hint { color: var(--accent); }
+.caption .cap-cv { pointer-events: auto; color: var(--fg); font-weight: 700; text-decoration: none; cursor: pointer; transition: color 0.15s ease; }
+.caption .cap-cv .br { color: var(--frame); transition: color 0.15s ease; }
+.caption .cap-cv:hover { color: #fff; }
+.caption .cap-cv:hover .br { color: var(--accent); }
 
 /* ---------- planet labels: ascii tags ---------- */
 #labels { position: fixed; inset: 0; z-index: 2; pointer-events: none; }

@@ -1820,7 +1820,8 @@ void main(){
   const caption = (() => {
     const el = $('#caption'), pre = $('#cap-pre'), face = $('#cap-face');
     const PFONT = (SIM && params.has('p_font')) ? parseFloat(params.get('p_font')) : 4.6;   // portrait character size (px)
-    $('#cap-sr').innerHTML = `<p>${escHTML(INTRO.title)}</p><p>${escHTML(INTRO.subtitle)}</p>`;
+    const CV = 'MaartenStork_CV.pdf', CV_TXT = 'DOWNLOAD CV';
+    $('#cap-sr').innerHTML = `<p>${escHTML(INTRO.title)}</p><p>${escHTML(INTRO.subtitle)}</p><p><a href="${CV}" download>Download CV (PDF)</a></p>`;
     let portrait = null, shown = false;
     const mix = (a, b, t) => '#' + [0, 1, 2].map((k) => Math.round(parseInt(a.slice(1 + 2 * k, 3 + 2 * k), 16) * (1 - t) + parseInt(b.slice(1 + 2 * k, 3 + 2 * k), 16) * t).toString(16).padStart(2, '0')).join('');
     function render() {
@@ -1873,6 +1874,15 @@ void main(){
         face.style.left = (capCW + (PW * capCW - P[0].length * faceCW) / 2) + 'px';
         face.style.top = (capCH + (PR * capCH - P.length * faceCH) / 2) + 'px';
       } else face.hidden = true;
+
+      // CV download button, centred under the portrait (or under the text box when there is none)
+      const cvLen = CV_TXT.length + 4;
+      const cvBtn = (w) => {
+        const pad = Math.max(0, w - cvLen), l = pad >> 1;
+        return ' '.repeat(l) + `<a class="cap-cv" href="${CV}" download tabindex="-1"><span class="br">[</span> ${CV_TXT} <span class="br">]</span></a>` + ' '.repeat(pad - l);
+      };
+      if (P) leftBox.push(' '.repeat(PW + 2), cvBtn(PW + 2));
+      else textBox.push(' '.repeat(RW + 4), cvBtn(RW + 4));
 
       const lines = [];
       for (let r = 0; r < Math.max(leftBox.length, textBox.length); r++) {
