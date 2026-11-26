@@ -1820,7 +1820,7 @@ void main(){
   const caption = (() => {
     const el = $('#caption'), pre = $('#cap-pre'), face = $('#cap-face');
     const PFONT = (SIM && params.has('p_font')) ? parseFloat(params.get('p_font')) : 4.6;   // portrait character size (px)
-    const CV = 'MaartenStork_CV.pdf', CV_TXT = 'DOWNLOAD CV';
+    const CV = 'MaartenStork_CV.pdf?v=2', CV_TXT = 'DOWNLOAD CV';
     $('#cap-sr').innerHTML = `<p>${escHTML(INTRO.title)}</p><p>${escHTML(INTRO.subtitle)}</p><p><a href="${CV}" download>Download CV (PDF)</a></p>`;
     let portrait = null, shown = false;
     const mix = (a, b, t) => '#' + [0, 1, 2].map((k) => Math.round(parseInt(a.slice(1 + 2 * k, 3 + 2 * k), 16) * (1 - t) + parseInt(b.slice(1 + 2 * k, 3 + 2 * k), 16) * t).toString(16).padStart(2, '0')).join('');
